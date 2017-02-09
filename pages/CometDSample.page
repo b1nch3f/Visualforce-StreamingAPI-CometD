@@ -1,0 +1,42 @@
+<apex:page showHeader="false" sidebar="false">
+	<style type="text/css">
+		#status {
+			text-align: center;
+			font-size: 20px;
+			padding-top: 80px;
+		}
+	</style>
+	<apex:includeScript value="{!URLFOR($Resource.cometD, '/cometd.js')}"/>
+	<apex:includeScript value="{!URLFOR($Resource.cometD, '/jquery-1.5.1.js')}"/>
+	<apex:includeScript value="{!URLFOR($Resource.cometD, '/json2.js')}"/>
+	<apex:includeScript value="{!URLFOR($Resource.cometD, '/jquery.cometd.js')}"/>
+
+    <script type="text/javascript">
+    (function($){
+        $(document).ready(function() {
+            // Connect to the CometD endpoint
+            $.cometd.init({
+               url: window.location.protocol+'//'+window.location.hostname+'/cometd/24.0/',
+               requestHeaders: { Authorization: 'OAuth {!$Api.Session_ID}'}
+           });
+
+           // Subscribe to a topic. JSON-encoded update will be returned
+           // in the callback
+           $.cometd.subscribe('/topic/CaseUpdates', function(message) {
+               console.log(message);
+               var status = message.data.sobject.Status;
+               $('#status').text(status);
+            });
+        });
+   })(jQuery)
+   function disconnect() {
+       $.cometd.disconnect();
+   }
+   window.onbeforeunload = disconnect;
+   </script>
+   <body>
+   <div id="status">
+    
+  </div>
+  </body>
+</apex:page>
