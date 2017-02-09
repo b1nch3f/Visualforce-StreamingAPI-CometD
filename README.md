@@ -2,7 +2,7 @@
 
 
 ## Create a push topic
-
+~~~~
 PushTopic pushTopic = new PushTopic();
 pushTopic.Name = 'CaseUpdates';
 pushTopic.Query = 'SELECT Id, CaseNumber, Subject, Status FROM Case';
@@ -13,3 +13,4 @@ pushTopic.NotifyForOperationUndelete = true;
 pushTopic.NotifyForOperationDelete = true;
 pushTopic.NotifyForFields = 'Referenced';
 insert pushTopic;
+~~~~
